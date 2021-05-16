@@ -1,0 +1,47 @@
+{
+  "nodes":[
+    {
+      "id": "27800994",
+      "labels": [
+        "Company"
+      ],
+      "properties": {
+        "keyNo": "7e023446a248dd2e873ede3a08eeadc5",
+        "registCapi": "5000.0",
+        "name": "成都倍达资产管理有限公司111",
+        "econKind": "有限责任公司（非自然人投资或控股的法人独资）",
+        "status": "存续"
+      },
+      "type": "Company",
+      "name": "成都倍达资产管理有限公司",
+      "degree": 4
+    },
+    {
+      "id": "13956312",
+      "labels": [
+        "Company"
+      ],
+      "properties": {
+        "keyNo": "3fc8e6b450a351dffaf97ebba7bd5675",
+        "registCapi": "21000.0",
+        "name": "小米科技(武汉)有限公司",
+        "econKind": "有限责任公司(外商投资企业法人独资)",
+        "status": "存续"
+      },
+      "type": "Company",
+      "name": "小米科技(武汉)有限公司",
+      "degree": 4
+    }
+  ],
+  "edges":[
+    {
+      "id": "186852128",
+      "type": "EMPLOY",
+      "properties": {
+        "role": "董事"
+      },
+      "source": "27800994",
+      "target": "13956312"
+    }]
+
+}

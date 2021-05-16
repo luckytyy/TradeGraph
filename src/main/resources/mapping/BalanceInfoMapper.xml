@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dsc.mapper.BalanceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dsc.model.BalanceInfo">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sourceToken" jdbcType="VARCHAR" property="sourceToken"/>
+        <result column="network" jdbcType="VARCHAR" property="hash"/>
+        <result column="hash" jdbcType="VARCHAR" property="network"/>
+        <result column="tokenInfo" jdbcType="VARCHAR" property="tokenInfoStr"/>
+        <result column="transferCnt" jdbcType="INTEGER" property="transferCnt"/>
+        <result column="balance" jdbcType="INTEGER" property="balance"/>
+    </resultMap>
+
+    <select id="findById" resultType="com.dsc.model.BalanceInfo">
+        select * from TradeBalance where id = #{id}
+    </select>
+    <select id="findList" resultMap="BaseResultMap">
+        select * from TradeBalance
+    </select>
+    <insert id="insert" parameterType="com.dsc.model.TradeInfo">
+        insert into TradeBalance(sourceToken,hash,network,tokenInfo,transferCnt,balance)
+        values (#{sourceToken,jdbcType=VARCHAR},#{hash,jdbcType=VARCHAR},#{network,jdbcType=VARCHAR},#{tokenInfoStr,jdbcType=VARCHAR},#{transferCnt,jdbcType=INTEGER},#{balance,jdbcType=INTEGER}
+        )
+    </insert>
+</mapper>

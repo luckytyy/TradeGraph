@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tutorial Demo</title>
+</head>
+<body>
+<div id="container" style="width:2000px;height:800px;"></div>
+
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
+
+
+<!--private String source;-->
+<!--private String target;-->
+<!--private String id;-->
+<!--private String description;-->
+<!--private Long tradeVal;-->
+<script>
+    const tooltip = new G6.Tooltip({
+        offsetX: 10,
+        offsetY: 10,
+        fixToNode: [1, 0.5],
+        // the types of items that allow the tooltip show up
+        // 允许出现 tooltip 的 item 类型
+        itemTypes: ['node', 'edge'],
+        // custom the tooltip's content
+        // 自定义 tooltip 内容
+        getContent: (e) => {
+        const outDiv = document.createElement('div');
+    outDiv.style.width = 'fit-content';
+    outDiv.style.height = 'fit-content';
+    const model = e.item.getModel();
+    if (e.item.getType() === 'node') {
+        outDiv.innerHTML = `${model.name}`;
+    } else {
+        const source = e.item.getSource();
+        const target = e.item.getTarget();
+        const description = e.item.getModel()['description'];
+        const tradeVal = e.item.getModel()['tradeVal'];
+
+        outDiv.color ='red';
+        outDiv.innerHTML = `来源：${source.getModel().name}<br/>去向：${target.getModel().name}<br/>交易次数：${description}<br/>交易总额：${tradeVal}`;
+    }
+    return outDiv;
+    },
+    });
+
+    const container = document.getElementById('container');
+    const width = container.scrollWidth;
+    const height = container.scrollHeight || 500;
+    const graph = new G6.Graph({
+        container: 'container',
+        width,
+        height,
+        plugins: [tooltip],
+        layout: {
+            type: 'force',
+            edgeStrength: 0.7,
+        },
+        modes: {
+            default: ['drag-canvas'],
+        },
+        defaultNode: {
+            size: [10, 10],
+            style: {
+                lineWidth: 2,
+                fill: '#DEE00F',
+                stroke: '#5B8FF9',
+            },
+
+        },
+        defaultEdge: {
+            size: 1,
+            startArrow: true, // 添加头部箭头
+            style: {
+                stroke: '#eee2e2',
+                lineAppendWidth: 2,
+            },
+        },
+        nodeStateStyles: {
+            highlight: {
+                opacity: 1,
+            },
+            dark: {
+                opacity: 0.2,
+            },
+        },
+        edgeStateStyles: {
+            highlight: {
+                stroke: '#999',
+            },
+        },
+    });
+
+    function clearAllStats() {
+        graph.setAutoPaint(false);
+        graph.getNodes().forEach(function (node) {
+            graph.clearItemStates(node);
+        });
+        graph.getEdges().forEach(function (edge) {
+            graph.clearItemStates(edge);
+        });
+        graph.paint();
+        graph.setAutoPaint(true);
+    }
+    graph.on('node:mouseleave', clearAllStats);
+    graph.on('canvas:click', clearAllStats);
+
+    fetch('getTradeMap.json')
+        .then((res) => res.json())
+    .then((data) => {
+        graph.data({
+        nodes: data.nodes,
+        edges: data.edges.map(function (edge, i) {
+            edge.id = 'edge' + i;
+            return Object.assign({}, edge);
+        }),
+    });
+
+    graph.render();
+    });
+
+    if (typeof window !== 'undefined')
+        window.onresize = () => {
+        if (!graph || graph.get('destroyed')) return;
+        if (!container || !container.scrollWidth || !container.scrollHeight) return;
+        graph.changeSize(container.scrollWidth, container.scrollHeight);
+    };
+</script>
+</body>
+</html>

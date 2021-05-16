@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dsc.mapper.TradeInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dsc.model.TradeInfo">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="index_data" jdbcType="INTEGER" property="index"/>
+        <result column="block_no" jdbcType="VARCHAR" property="block_no"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="tokenAddr" jdbcType="VARCHAR" property="tokenAddr"/>
+        <result column="tokenSymbol" jdbcType="VARCHAR" property="tokenSymbol"/>
+        <result column="tokenDecimals" jdbcType="VARCHAR" property="tokenDecimals"/>
+        <result column="trade_time" jdbcType="DATE" property="time"/>
+        <result column="txid" jdbcType="VARCHAR" property="txid"/>
+        <result column="tokenInfo" jdbcType="VARCHAR" property="tokenInfoStr"/>
+        <result column="from_data" jdbcType="VARCHAR" property="from"/>
+        <result column="fromAlias" jdbcType="VARCHAR" property="fromAlias"/>
+        <result column="to_data" jdbcType="VARCHAR" property="to"/>
+        <result column="toAlias" jdbcType="VARCHAR" property="toAlias"/>
+        <result column="trade_value" jdbcType="INTEGER" property="value"/>
+        <result column="conformations" jdbcType="VARCHAR" property="conformations"/>
+    </resultMap>
+
+    <select id="findById" resultType="com.dsc.model.TradeInfo">
+        select * from tradeInfo where id = #{id}
+    </select>
+    <select id="findList" resultMap="BaseResultMap">
+        select * from TradeInfo
+    </select>
+    <insert id="insert" parameterType="com.dsc.model.TradeInfo">
+        insert into TradeInfo(index_data,block_no,token,tokenAddr,tokenSymbol,tokenDecimals,trade_time,txid,tokenInfo,
+        from_data,fromAlias,to_data,toAlias,trade_value,conformations)
+        values (#{index,jdbcType=INTEGER},#{block_no,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR},#{tokenAddr,jdbcType=VARCHAR}
+        ,#{tokenSymbol,jdbcType=VARCHAR},#{tokenDecimals,jdbcType=VARCHAR}
+        ,#{time,jdbcType=DATE},#{txid,jdbcType=VARCHAR},#{tokenInfoStr,jdbcType=VARCHAR},
+        #{from,jdbcType=VARCHAR},#{fromAlias,jdbcType=VARCHAR},#{to,jdbcType=VARCHAR},#{toAlias,jdbcType=VARCHAR}
+        ,#{value,jdbcType=INTEGER},#{conformations,jdbcType=VARCHAR})
+    </insert>
+</mapper>
