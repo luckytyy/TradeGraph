@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dsc.mapper.QueryInfoMapper">
+    <resultMap id="BaseResultMap" type="com.dsc.model.QueryInfo">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="sourceToken" jdbcType="VARCHAR" property="sourceToken"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="tokens" jdbcType="VARCHAR" property="tokens"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <select id="findById" resultType="com.dsc.model.QueryInfo">
+        select * from queryInfo where id = #{id}
+    </select>
+    <select id="findList" resultMap="BaseResultMap">
+        select * from queryInfo
+    </select>
+    <insert id="insert" parameterType="com.dsc.model.QueryInfo">
+        insert into queryInfo(sourceToken,type,tokens,description)
+        values (#{sourceToken,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{tokens,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteAll" flushCache="true">
+        delete from queryInfo;
+    </delete>
+</mapper>

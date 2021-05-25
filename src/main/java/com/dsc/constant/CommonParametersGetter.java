@@ -1,4 +1,4 @@
-package com.dsc.util;
+package com.dsc.constant;
 
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -24,7 +24,6 @@ public class CommonParametersGetter {
 	};
 	
 	public static final int CONNECTION_TIME_OUT = 60000;       // CONNECTION_TIME_OUT seconds time out
-	public static final int DOWNLOAD_CONNECTION_TIME_OUT = 30000;
 
   /**
    * 每个账号最多获取的交易记录数量
@@ -40,10 +39,25 @@ public class CommonParametersGetter {
 
 
 	// 如果账户没有别名，默认截取的位数作为账户简化名称
-	public final static int COMMON_NAME_PREFIX = 18;
+	public final static int COMMON_NAME_PREFIX = 100;
 
 	public final static int MAX_LOOKUP_SIZE = 50;
-	
+
+	public final static String ENTER_STR  = "<br />";
+	/**
+	 * 最大查询的 交易记录数量
+	 */
+	public final static int MAX_TRASFER_QUERY_COUNT = 500;
+
+	public final static int AGENT_TRADE_MAX_COUNT = 10;
+
+	/**
+	 *  1.使用复杂的HTTP SSL方式
+	 *  2.使用 Jsoup方式
+	 */
+	public final static int USE_FLAG = 1;
+
+
 	public static String getRandomUserAgents(){
 		int len = USER_AGENTS.length;
 		return USER_AGENTS[RandomUtils.nextInt(len)];

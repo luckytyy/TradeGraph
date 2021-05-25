@@ -16,5 +16,13 @@ public interface BalanceInfoMapper {
 
     int insert(BalanceInfo TradeInfo);
 
+    int updateById(BalanceInfo balanceInfo);
+
+    void deleteAll();
+
+    /**
+     * 清除3个表的自增seq
+     */
+    void deleteSeq();
 
 }

@@ -5,22 +5,37 @@
     <resultMap id="BaseResultMap" type="com.dsc.model.BalanceInfo">
         <result column="id" jdbcType="INTEGER" property="id"/>
         <result column="sourceToken" jdbcType="VARCHAR" property="sourceToken"/>
-        <result column="network" jdbcType="VARCHAR" property="hash"/>
-        <result column="hash" jdbcType="VARCHAR" property="network"/>
+        <result column="network" jdbcType="VARCHAR" property="network"/>
+        <result column="hash" jdbcType="VARCHAR" property="hash"/>
         <result column="tokenInfo" jdbcType="VARCHAR" property="tokenInfoStr"/>
         <result column="transferCnt" jdbcType="INTEGER" property="transferCnt"/>
+        <result column="realQueryCount" jdbcType="INTEGER" property="realQueryCount"/>
         <result column="balance" jdbcType="INTEGER" property="balance"/>
+        <result column="queryTime" jdbcType="DATE" property="queryTime"/>
+        <result column="lastTradeTimeOther" jdbcType="DATE" property="lastTradeTime"/>
+
     </resultMap>
 
     <select id="findById" resultType="com.dsc.model.BalanceInfo">
         select * from TradeBalance where id = #{id}
     </select>
     <select id="findList" resultMap="BaseResultMap">
-        select * from TradeBalance
+        select t.*,t.lastTradeTime*1000  lastTradeTimeOther from TradeBalance t
     </select>
     <insert id="insert" parameterType="com.dsc.model.TradeInfo">
-        insert into TradeBalance(sourceToken,hash,network,tokenInfo,transferCnt,balance)
-        values (#{sourceToken,jdbcType=VARCHAR},#{hash,jdbcType=VARCHAR},#{network,jdbcType=VARCHAR},#{tokenInfoStr,jdbcType=VARCHAR},#{transferCnt,jdbcType=INTEGER},#{balance,jdbcType=INTEGER}
-        )
+        insert into TradeBalance(sourceToken,hash,network,tokenInfo,transferCnt,balance,queryTime,realQueryCount,queryRecursiveInfo,lastTradeTime)
+        values (#{sourceToken,jdbcType=VARCHAR},#{hash,jdbcType=VARCHAR},#{network,jdbcType=VARCHAR},#{tokenInfoStr,jdbcType=VARCHAR},#{transferCnt,jdbcType=INTEGER},#{balance,jdbcType=INTEGER},#{queryTime,jdbcType=DATE},#{realQueryCount,jdbcType=INTEGER},#{queryRecursiveInfo,jdbcType=VARCHAR},#{lastTradeTime,jdbcType=DATE})
     </insert>
+
+    <update id="updateById" parameterType="com.dsc.model.TradeInfo">
+        update TradeBalance set queryRecursiveInfo =#{queryRecursiveInfo,jdbcType=VARCHAR} where id = #{id};
+    </update>
+
+    <delete id="deleteSeq" flushCache="true">
+        DELETE FROM sqlite_sequence;
+    </delete>
+
+    <delete id="deleteAll" flushCache="true">
+        delete from TradeBalance;
+    </delete>
 </mapper>

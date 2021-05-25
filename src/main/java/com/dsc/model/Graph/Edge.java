@@ -7,9 +7,9 @@ public class Edge {
     private String source;
     private String target;
     private String id;
-    private String description;
+    private Integer tradeCount;
     private String tradeVal;
-
+    private String tradeDescription;
 
     public String getSource() {
         return source;
@@ -35,12 +35,13 @@ public class Edge {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+
+    public Integer getTradeCount() {
+        return tradeCount;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTradeCount(Integer tradeCount) {
+        this.tradeCount = tradeCount;
     }
 
     public String getTradeVal() {
@@ -49,6 +50,14 @@ public class Edge {
 
     public void setTradeVal(String tradeVal) {
         this.tradeVal = tradeVal;
+    }
+
+    public String getTradeDescription() {
+        return tradeDescription;
+    }
+
+    public void setTradeDescription(String tradeDescription) {
+        this.tradeDescription = tradeDescription;
     }
 
     @Override

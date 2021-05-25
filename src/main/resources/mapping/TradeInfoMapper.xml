@@ -10,7 +10,7 @@
         <result column="tokenAddr" jdbcType="VARCHAR" property="tokenAddr"/>
         <result column="tokenSymbol" jdbcType="VARCHAR" property="tokenSymbol"/>
         <result column="tokenDecimals" jdbcType="VARCHAR" property="tokenDecimals"/>
-        <result column="trade_time" jdbcType="DATE" property="time"/>
+        <result column="tradeTimeOther" jdbcType="DATE" property="time"/>
         <result column="txid" jdbcType="VARCHAR" property="txid"/>
         <result column="tokenInfo" jdbcType="VARCHAR" property="tokenInfoStr"/>
         <result column="from_data" jdbcType="VARCHAR" property="from"/>
@@ -21,11 +21,18 @@
         <result column="conformations" jdbcType="VARCHAR" property="conformations"/>
     </resultMap>
 
+    <resultMap id="TradeSummaryResultMap" type="com.dsc.model.TradeAgentSummary">
+        <result column="tokenAddr" jdbcType="VARCHAR" property="tokenAddr"/>
+        <result column="tradeDateStr" jdbcType="VARCHAR" property="tradeDateStr"/>
+        <result column="tradeCount" jdbcType="INTEGER" property="tradeCount"/>
+    </resultMap>
+
+
     <select id="findById" resultType="com.dsc.model.TradeInfo">
         select * from tradeInfo where id = #{id}
     </select>
     <select id="findList" resultMap="BaseResultMap">
-        select * from TradeInfo
+        select t.*, trade_time*1000 tradeTimeOther from tradeInfo  t
     </select>
     <insert id="insert" parameterType="com.dsc.model.TradeInfo">
         insert into TradeInfo(index_data,block_no,token,tokenAddr,tokenSymbol,tokenDecimals,trade_time,txid,tokenInfo,
@@ -36,4 +43,21 @@
         #{from,jdbcType=VARCHAR},#{fromAlias,jdbcType=VARCHAR},#{to,jdbcType=VARCHAR},#{toAlias,jdbcType=VARCHAR}
         ,#{value,jdbcType=INTEGER},#{conformations,jdbcType=VARCHAR})
     </insert>
+
+    <delete id="deleteAll" flushCache="true">
+        delete from TradeInfo;
+    </delete>
+
+    <select id="getAgentList" parameterType="java.lang.Integer" resultMap="TradeSummaryResultMap">
+        select tokenAddr,trade_special_date tradeDateStr,trade_count from (
+        select from_data tokenAddr,date(datetime(trade_time,'unixepoch','localtime')) trade_special_date,count(*) trade_count from tradeInfo
+        where fromAlias is null and toAlias is null
+        group by from_data,date(datetime(trade_time,'unixepoch','localtime'))
+        having count(*)>#{threshholdVale,jdbcType=INTEGER}
+        union
+        select to_data tokenAddr,date(datetime(trade_time,'unixepoch','localtime')) trade_special_date,count(*) trade_count from tradeInfo
+        where fromAlias is null and toAlias is null
+        group by to_data,date(datetime(trade_time,'unixepoch','localtime'))
+        having count(*)>#{threshholdVale,jdbcType=INTEGER} ) A order by trade_count desc;
+    </select>
 </mapper>

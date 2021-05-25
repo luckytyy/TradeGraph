@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class TradeInfo {
 
+    private Long id;
     private Long index;
     private Long block_no;
     private String token ;
@@ -28,6 +29,13 @@ public class TradeInfo {
     private BigDecimal value;
     private String conformations;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getIndex() {
         return index;
@@ -175,7 +183,8 @@ public class TradeInfo {
     @Override
     public String toString() {
         return "TradeInfo{" +
-                "index=" + index +
+                "id=" + id +
+                ", index=" + index +
                 ", block_no=" + block_no +
                 ", token='" + token + '\'' +
                 ", tokenAddr='" + tokenAddr + '\'' +
@@ -184,6 +193,7 @@ public class TradeInfo {
                 ", time=" + time +
                 ", txid='" + txid + '\'' +
                 ", tokenInfo=" + tokenInfo +
+                ", tokenInfoStr='" + tokenInfoStr + '\'' +
                 ", from='" + from + '\'' +
                 ", fromAlias='" + fromAlias + '\'' +
                 ", to='" + to + '\'' +

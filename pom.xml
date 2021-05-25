@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dsc</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>TradeGraph</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>TradeGraph</name>
+	<description>TradeGraph project</description>
 	<properties>
 		<java.version>8</java.version>
         <sqlite.jdbc.version>3.27.2.1</sqlite.jdbc.version>
@@ -61,7 +61,11 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
 
 		<!-- druid 驱动 -->
 		<dependency>
